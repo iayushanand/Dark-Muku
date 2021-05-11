@@ -21,7 +21,7 @@ client = commands.Bot(command_prefix = get_prefix,intents=intents)
 client.remove_command('help') #removing help command
 
 
-initial_extensions = ['cogs.owner','cogs.help','cogs.kick_ban']
+cogs = ['cogs.owner','cogs.help','cogs.kick_ban']
 
 
 
@@ -68,7 +68,7 @@ async def on_command_error(ctx,error):
 @client.event
 async def on_ready():
   print(f'Loged in as {client.user.name} in {len(client.guilds)} Servers')
-  for cog in initial_extensions:
+  for cog in cogs:
     client.load_extension(cog)
   
   changestatus.start()
@@ -94,33 +94,6 @@ async def on_guild_remove(guild): #when the bot is removed from the guild
 
     with open('prefixes.json', 'w') as f: #deletes the guild.id as well as its prefix
         json.dump(prefixes, f, indent=4)
-
-
-
-
-######################## All help cmds will goes here ###########################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -186,30 +159,6 @@ async def slowmode(ctx,duration):
 
   await ctx.send(f'The channel is now on **{duration}s** slowmode')
 
-
-
-@client.command()
-@commands.has_permissions(ban_members=True)
-async def ban(ctx,member:discord.Member,*,reason='No specific reason'):
-  await member.ban(reason=f'{ctx.author.name}#{ctx.author.discriminator}: [{reason}]')
-
-  embed=discord.Embed(title='',description=f'<:mukuyes:840609577308520519> **{member.name}#{member.discriminator}** was banned',color=0x123456)
-
-  embed.set_footer(text='Thanks for using Dark Muku')
-
-  await ctx.send(embed=embed)
-
-
-@client.command()
-@commands.has_permissions(kick_members=True)
-async def kick(ctx,member:discord.Member,*,reason='No specific reason'):
-  await member.ban(reason=f'{ctx.author.name}#{ctx.author.discriminator}: [{reason}]')
-
-  embed=discord.Embed(title='',description=f'<:mukuyes:840609577308520519> **{member.name}#{member.discriminator}** was kicked',color=0x123456)
-
-  embed.set_footer(text='Thanks for using Dark Muku')
-
-  await ctx.send(embed=embed)
 
 
 
