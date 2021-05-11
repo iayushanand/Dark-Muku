@@ -21,7 +21,7 @@ client = commands.Bot(command_prefix = get_prefix,intents=intents)
 client.remove_command('help') #removing help command
 
 
-initial_extensions = ['cogs.owner','cogs.help']
+initial_extensions = ['cogs.owner','cogs.help','cogs.kick_ban']
 
 
 
