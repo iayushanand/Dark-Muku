@@ -12,3 +12,7 @@ class utility(commands.Cog):
         embed.set_footer(text="Thanks for using Dark Muku")
         embed.set_image(url='https://media.discordapp.net/attachments/840423101284089896/840564768527613972/Support_Gif.gif?width=480&height=240')
         await ctx.send(embed=embed)
+
+
+def setup(client):
+    client.add_cog(utility(client))
