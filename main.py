@@ -230,60 +230,6 @@ async def nick(ctx,member:discord.Member,*,nickname=''):
 
 
 
-@client.command()
-@commands.has_permissions(manage_roles=True)
-async def mute(ctx,member:discord.Member):
-  try:  
-    mrole=discord.utils.get(ctx.guild.roles,name="MUTED")
-
-    await member.add_roles(mrole)
-    
-    embed=discord.Embed(title='',description=f'<:mukuyes:840609577308520519> **{member.name}#{member.discriminator}** was muted')
-
-    embed.set_footer(text='Thanks for using Dark Muku')
-
-    await ctx.send(embed=embed)
-
-  except AttributeError:
-    await ctx.send(f'**No role names as `MUTED` was found**',delete_after=4.5)
-
-
-
-@client.command()
-@commands.has_permissions(manage_roles=True)
-async def unmute(ctx,member:discord.Member):
-  try:
-    mrole=discord.utils.get(ctx.guild.roles,name="MUTED")
-
-    await member.remove_roles(mrole)
-    
-    embed=discord.Embed(title='',description=f'<:mukuyes:840609577308520519> **{member.name}#{member.discriminator}** was unmuted')
-
-    embed.set_footer(text='Thanks for using Dark Muku')
-
-    await ctx.send(embed=embed)
-  
-  except AttributeError:
-    await ctx.send(f'**No role names as `MUTED` was found**',delete_after=4.5)
-
-
-
-
-@client.command()
-async def support(ctx):
-  embed=discord.Embed(title='Dark Muku Support',description='Join Dark Muku Support Server',color=0x020c5a)
-
-  embed.add_field(name='Link',value=f'🔗 **[Server Link](https://discord.gg/VsPKw3qunU)**')
-
-  embed.set_thumbnail(url='https://media.discordapp.net/attachments/840423101284089896/840564997204738048/DARK_MUKU.png?width=449&height=449')
-
-  embed.set_image(url='https://images-ext-1.discordapp.net/external/1XlCKwU9d4NzEsi-4zF9TS-HqiEzcdI1TH4d_NoPlDQ/%3Fwidth%3D427%26height%3D213/https/media.discordapp.net/attachments/840423101284089896/840564768527613972/Support_Gif.gif?width=320&height=160')
-
-  await ctx.send(embed=embed)
-
-
-
-
 @client.command(aliases=["w"])
 @commands.has_permissions(manage_messages = True)
 async def whois(ctx, member: discord.Member = ''):
