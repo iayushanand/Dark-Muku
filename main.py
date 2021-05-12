@@ -21,7 +21,7 @@ client = commands.Bot(command_prefix = get_prefix,intents=intents)
 client.remove_command('help') #removing help command
 
 
-cogs = ['cogs.owner','cogs.help','cogs.kick_ban']
+cogs = ['cogs.owner','cogs.help','cogs.kick_ban','cogs.utility']
 
 
 
@@ -228,37 +228,6 @@ async def nick(ctx,member:discord.Member,*,nickname=''):
 
   await ctx.send(embed=embed)
 
-
-
-@client.command(aliases=["w"])
-@commands.has_permissions(manage_messages = True)
-async def whois(ctx, member: discord.Member = ''):
-    if member=='':
-      member=ctx.author
-    else:
-      pass
-    
-    if not member:  # if member is no mentioned
-        member = ctx.message.author  # set member as the author
-    roles = [role for role in member.roles]
-    embed = discord.Embed(colour=discord.Colour.purple(), timestamp=ctx.message.created_at,
-                          title=f"User Info - {member}")
-    embed.set_thumbnail(url=member.avatar_url)
-    embed.set_footer(text=f"Requested by {ctx.author}")
-
-    embed.add_field(name="ID:", value=member.id,inline=True)
-    embed.add_field(name="Display Name:", value=member.display_name,inline=True)
-
-    embed.add_field(name="Account Created:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"),inline=True)
-    embed.add_field(name="Server Joined:", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"),inline=True)
-
-    embed.add_field(name="Roles:", value="".join([role.mention for role in roles]),inline=True)
-    embed.add_field(name="Highest Role:", value=member.top_role.mention)
-    print(member.top_role.mention)
-
-    await ctx.send(embed=embed)
-
-format = "%a, %d %b %Y | %H:%M:%S %ZGMT"
 
 
 
