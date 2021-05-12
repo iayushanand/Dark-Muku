@@ -32,35 +32,7 @@ class utility(commands.Cog):
         # Remove digits from string
         hypesquad_class = ''.join([i for i in hypesquad_class if not i.isdigit()])
 
-        badge = ''
-        if hypesquad_class == 'Hypesquad Bravery':
-            badge='<:BraveryLogo:841888071686422571>'
-        
-        elif hypesquad_class == 'Hypesquad Balance':
-            badge='<:BalanceLogo:841888070285525003>'
-        
-        elif hypesquad_class == 'Hypesquad Brilliance':
-            badge='<:BrillianceLogo:841888073197158420>'
-        
-        else:
-            badge='Working req.'
-
         status=member.activities[0].name
-        sbadeg=''
-
-        if status == 'discord.Status.online':
-            sbadge='<:Online:841889925510070312>'
-        
-        elif status == discord.Status.dnd:
-            sbadge='<:Dnd:841890159682781185>'
-        
-        elif status == discord.Status.idle:
-            sbadge='<:Idle:841891745603649536>'
-        
-        else:
-            sbadge='<:Invisible:841891743066619904>'
-
-
 
         roles = [role for role in member.roles]
         embed = discord.Embed(colour=discord.Colour.purple(), timestamp=ctx.message.created_at,
