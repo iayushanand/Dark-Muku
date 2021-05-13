@@ -223,9 +223,9 @@ class Music(commands.Cog):
 
         if vc:
             if vc.channel.id == channel.id:
-                return
+                return await ctx.send('Already Connected!')
             try:
-                await vc.move_to(channel)
+                await ctx.send('I am already in a diffrent VC')
             except asyncio.TimeoutError:
                 raise VoiceConnectionError(f'Moving to channel: <{channel}> timed out.')
         else:
@@ -234,12 +234,11 @@ class Music(commands.Cog):
             except asyncio.TimeoutError:
                 raise VoiceConnectionError(f'Connecting to channel: <{channel}> timed out.')
 
-        await ctx.send(f'Connected to: **{channel}**', )
+        await ctx.send(f'Connected to: **{channel}**' )
+        await ctx.message.add_reaction('') ### reaction
 
-    @commands.command(name='play', aliases=['sing'])
+    @commands.command(name='play', aliases=['sing','p'])
     async def play_(self, ctx, *, search: str):
-        await ctx.trigger_typing()
-
         vc = ctx.voice_client
 
         if not vc:
@@ -264,6 +263,7 @@ class Music(commands.Cog):
             return
 
         vc.pause()
+        await ctx.message.add_reaction('')
         await ctx.send(f'**`{ctx.author}`**: Paused the song!')
 
     @commands.command(name='resume')
@@ -293,6 +293,7 @@ class Music(commands.Cog):
             return
 
         vc.stop()
+        await ctx.message.add_reaction('')
         await ctx.send(f'**`{ctx.author}`**: Skipped the song!')
 
     @commands.command(name='queue', aliases=['q', 'playlist'])
@@ -360,8 +361,8 @@ class Music(commands.Cog):
         player.volume = vol / 100
         await ctx.send(f'**`{ctx.author}`**: Set the volume to **{vol}%**')
 
-    @commands.command(name='stop', aliases=['leave'])
-    async def stop_(self, ctx):
+    @commands.command(name='stop', aliases=['s'])
+    async def stop(self, ctx):
         """Stop the currently playing song and destroy the player.
         !Warning!
             This will destroy the player assigned to your guild, also deleting any queued songs and settings.
@@ -372,6 +373,15 @@ class Music(commands.Cog):
             return await ctx.send('I am not currently playing anything!')
 
         await self.cleanup(ctx.guild)
+
+    @commands.command(name='leave')
+    async def leave(self,ctx):
+        vc = ctx.voice_client
+
+        if not vc:
+            return await ctx.send('I am not connected to any **VC**')
+        
+        await vc.disconnect(z)
 
 
 def setup(client):
