@@ -22,7 +22,7 @@ class commands(commands.Cog):
 		embed.set_footer(text='This command cannot be used in front of any other members.')
 
 		await ctx.send(embed=embed)
-    
+	
 	@commands.command()
 	@commands.is_owner()
 	async def hostinfo(self,ctx):
@@ -60,9 +60,9 @@ class commands(commands.Cog):
 
 		embed.add_field(name='Ping',value=ping)
 		await ctx.send(embed=embed)
-		
 
-	
+
+
 
 
 def setup(client):
