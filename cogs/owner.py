@@ -26,6 +26,7 @@ class commands(commands.Cog):
 	@commands.command()
 	@commands.is_owner()
 	async def hostinfo(self,ctx):
+		ping = f'{round(self.client.latency*1000)}ms'
 		delta_uptime = datetime.utcnow() - self.client.launch_time
 		hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
 		minutes, seconds = divmod(remainder, 60)
@@ -51,6 +52,7 @@ class commands(commands.Cog):
 		embed.set_thumbnail(url=f'{avatar}')
 		embed.set_footer(text='This is an owner only cmd')
 
+		embed.add_field(name='Ping',value=ping)
 		await ctx.send(embed=embed)
 		
 
