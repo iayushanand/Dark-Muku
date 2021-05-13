@@ -235,7 +235,7 @@ class Music(commands.Cog):
                 raise VoiceConnectionError(f'Connecting to channel: <{channel}> timed out.')
 
         await ctx.send(f'Connected to: **{channel}**' )
-        await ctx.message.add_reaction('') ### reaction
+        await ctx.message.add_reaction('🎧') ### reaction
 
     @commands.command(name='play', aliases=['sing','p'])
     async def play_(self, ctx, *, search: str):
@@ -263,7 +263,7 @@ class Music(commands.Cog):
             return
 
         vc.pause()
-        await ctx.message.add_reaction('')
+        await ctx.message.add_reaction('⏸️')
         await ctx.send(f'**`{ctx.author}`**: Paused the song!')
 
     @commands.command(name='resume')
@@ -277,6 +277,7 @@ class Music(commands.Cog):
             return
 
         vc.resume()
+        await ctx.message.add_reaction('▶️')
         await ctx.send(f'**`{ctx.author}`**: Resumed the song!')
 
     @commands.command(name='skip')
@@ -293,7 +294,7 @@ class Music(commands.Cog):
             return
 
         vc.stop()
-        await ctx.message.add_reaction('')
+        await ctx.message.add_reaction('⏩')
         await ctx.send(f'**`{ctx.author}`**: Skipped the song!')
 
     @commands.command(name='queue', aliases=['q', 'playlist'])
@@ -373,6 +374,8 @@ class Music(commands.Cog):
             return await ctx.send('I am not currently playing anything!')
 
         await self.cleanup(ctx.guild)
+        await ctx.message.add_reaction('⏹️')
+        
 
     @commands.command(name='leave')
     async def leave(self,ctx):
@@ -381,7 +384,10 @@ class Music(commands.Cog):
         if not vc:
             return await ctx.send('I am not connected to any **VC**')
         
-        await vc.disconnect(z)
+        await vc.disconnect()
+        await ctx.message.add_reaction('👋')
+
+       
 
 
 def setup(client):
