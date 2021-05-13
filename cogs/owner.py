@@ -55,8 +55,8 @@ class commands(commands.Cog):
 		embed.set_thumbnail(url=f'{avatar}')
 		embed.set_footer(text='This is an owner only cmd')
 
-		embed.add_field(name='**Server Count**',value=f'{server_count}')
-		embed.add_field(name='**Member Count**',value=f'{member_count}')
+		embed.add_field(name='**Server Count**',value=f'{server_count}',inline=True)
+		embed.add_field(name='**Member Count**',value=f'{member_count}',inline=True)
 
 		embed.add_field(name='Ping',value=ping)
 		await ctx.send(embed=embed)
