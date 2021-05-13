@@ -18,11 +18,11 @@ def get_prefix(client, message): ##first we define get_prefix
 
 client = commands.Bot(command_prefix = get_prefix,intents=intents)
 
-client.remove_command('help') #removing help command
+ #removing help command
 
 
 
-cogs = ['cogs.owner','cogs.help','cogs.kick_ban','cogs.utility']
+cogs = ['cogs.owner','cogs.kick_ban','cogs.utility','cogs.music','cogs.mute']
 
 
 
