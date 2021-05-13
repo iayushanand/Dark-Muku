@@ -40,6 +40,9 @@ class commands(commands.Cog):
 
 		avatar = self.client.user.avatar_url
 
+		server_count = len(self.client.guilds)
+		member_count = len(self.client.users)
+
 		embed=discord.Embed(title='Host Info',description='',color=0xfd5ae1)
 		embed.add_field(name='**Uptime**',value=f'{uptime}',inline=True)
 
@@ -51,6 +54,9 @@ class commands(commands.Cog):
 
 		embed.set_thumbnail(url=f'{avatar}')
 		embed.set_footer(text='This is an owner only cmd')
+
+		embed.add_field(name='**Server Count**',value=f'{server_count}')
+		embed.add_field(name='**Member Count**',value=f'{member_count}')
 
 		embed.add_field(name='Ping',value=ping)
 		await ctx.send(embed=embed)
