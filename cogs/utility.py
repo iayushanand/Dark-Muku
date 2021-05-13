@@ -55,6 +55,35 @@ class utility(commands.Cog):
         await ctx.send(embed=embed)
 
     format = "%a, %d %b %Y | %H:%M:%S %ZGMT"
+
+
+    @commands.command(aliases=['av'])
+    async def avatar(self,ctx,member:discord.Member=''):
+        if member == '':
+            member=ctx.message.author
+
+        avatar=member.avatar_url
+
+        memberi=f'{member.name}#{member.discriminator}'
+
+        embed=discord.Embed(title='Avatar',description='',color=0x00000f)
+        embed.set_author(name=f'{memberi}',icon_url=f'{avatar}')
+        embed.set_image(url=f'{avatar}')
+        embed.set_footer(text='Thanks for using Dark Muku')
+
+        await ctx.send(embed=embed)
+
+
+    @commands.command(aliases=['si'])
+    async def servericon(self,ctx):
+        icon=str(ctx.guild.icon_url)
+
+        embed=discord.Embed(title='',description='',color=0x123456)
+        embed.set_image(url=icon)
+        embed.set_footer(text='Thanks for using Dark Muku')
+
+        await ctx.send(embed=embed)
+
            
 
 

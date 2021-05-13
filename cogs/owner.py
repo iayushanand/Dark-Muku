@@ -1,6 +1,6 @@
-import discord,os,asyncio
+import discord,os,asyncio,datetime,psutil
 from discord.ext import commands, tasks
-
+from datetime import datetime
 
 TOKEN='ODQwMjI5MTczNzg0MzQ2NjM1.YJVKZQ.QEvCNgG7rxRzIIYD-Rp_BsSVloY'
 
@@ -11,6 +11,7 @@ class commands(commands.Cog):
 	def __init__(self, client):
 		super(commands, self).__init__()
 		self.client = client
+		self.client.launch_time = datetime.utcnow()
 
 
 	@commands.command()
@@ -19,6 +20,36 @@ class commands(commands.Cog):
 		embed=discord.Embed(title='OWNERS', description='The secret keys for owners',color=0xff0000)
 		embed.add_field(name='TOKEN', value=f'{TOKEN}', inline=False)
 		embed.set_footer(text='This command cannot be used in front of any other members.')
+
+		await ctx.send(embed=embed)
+    
+	@commands.command()
+	@commands.is_owner()
+	async def hostinfo(self,ctx):
+		delta_uptime = datetime.utcnow() - self.client.launch_time
+		hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
+		minutes, seconds = divmod(remainder, 60)
+		days, hours = divmod(hours, 24)
+
+		uptime = f'{days}d, {hours}h, {minutes}m, {seconds}s'
+
+		cpu_percent = psutil.cpu_percent()
+		memory_percent = psutil.virtual_memory().percent
+		discord_version = discord.__version__
+
+		avatar = self.client.user.avatar_url
+
+		embed=discord.Embed(title='Host Info',description='',color=0xfd5ae1)
+		embed.add_field(name='**Uptime**',value=f'{uptime}',inline=True)
+
+		embed.add_field(name='**CPU Usage**',value=f'{cpu_percent}%',inline=True)
+		embed.add_field(name='**Memory Usage**',value=f'{memory_percent}%',inline=True)
+
+		embed.add_field(name='**Discord Version**',value=f'{discord_version}',inline=True)
+		embed.add_field(name='**Python Version**',value=f'3.9.0',inline=True)
+
+		embed.set_thumbnail(url=f'{avatar}')
+		embed.set_footer(text='This is an owner only cmd')
 
 		await ctx.send(embed=embed)
 		

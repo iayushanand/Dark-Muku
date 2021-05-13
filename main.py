@@ -21,6 +21,7 @@ client = commands.Bot(command_prefix = get_prefix,intents=intents)
 client.remove_command('help') #removing help command
 
 
+
 cogs = ['cogs.owner','cogs.help','cogs.kick_ban','cogs.utility']
 
 
@@ -122,21 +123,6 @@ async def ping(ctx):
 
   await ctx.send(embed=embed)
 
-
-
-@client.command(aliases=['av'])
-async def avatar(ctx,member:discord.Member=''):
-  if member == '':
-    member=ctx.author
-  else:
-    pass
-  avatar=member.avatar_url
-  embed=discord.Embed(title='Avatar',discription='',color=member.color)
-  embed.set_author(icon_url=f'{avatar}',name=f'{member.name}#{member.discriminator}')
-  embed.set_image(url=f'{avatar}')
-  embed.set_footer(text='Thanks for using Dark Muku')
-  
-  await ctx.send(embed=embed)
 
 
 @client.command()
