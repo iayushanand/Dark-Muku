@@ -19,12 +19,17 @@ def get_prefix(client, message): ##first we define get_prefix
 
 client = commands.Bot(command_prefix = get_prefix,intents=intents)
 
-client.remove_command('help') #removing help command
+ #removing help command
 
 
 
+<<<<<<< HEAD
 cogs = ['cogs.owner','cogs.help','cogs.kick_ban','cogs.utility','cogs.music']
 client.launch_time = datetime.utcnow()
+=======
+cogs = ['cogs.owner','cogs.kick_ban','cogs.utility','cogs.music','cogs.mute']
+
+>>>>>>> 9362d8eca1bd0c1180f8413a6f8b982cc4fad30a
 
 
 
