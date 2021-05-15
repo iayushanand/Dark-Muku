@@ -1,7 +1,8 @@
-import discord,json,random
+import discord,json,random,datetime,asyncio
+from discord.client import Client
 from discord.ext import commands,tasks
 from random import choice
-
+from datetime import datetime
 
 
 intents = discord.Intents.all()
@@ -22,8 +23,8 @@ client.remove_command('help') #removing help command
 
 
 
-cogs = ['cogs.owner','cogs.help','cogs.kick_ban','cogs.utility']
-
+cogs = ['cogs.owner','cogs.help','cogs.kick_ban','cogs.utility','cogs.music']
+client.launch_time = datetime.utcnow()
 
 
 
@@ -68,11 +69,12 @@ async def on_command_error(ctx,error):
 
 @client.event
 async def on_ready():
-  print(f'Loged in as {client.user.name} in {len(client.guilds)} Servers')
+  print(f'Logged in as {client.user.name} in {len(client.guilds)} Servers')
   for cog in cogs:
     client.load_extension(cog)
   
   changestatus.start()
+  info.start()
 
 
 ########## PREFIX CHANGE ###########
@@ -148,51 +150,6 @@ async def slowmode(ctx,duration):
 
 
 
-@client.command(aliases=['info'])
-async def serverinfo(ctx):
-  name = str(ctx.guild.name)
-  description = str(ctx.guild.description)
-
-  owner = str(ctx.guild.owner)
-  id = str(ctx.guild.id)
-  region = str(ctx.guild.region)
-  memberCount = str(ctx.guild.member_count)
-
-  icon = str(ctx.guild.icon_url)
-   
-  embed = discord.Embed(
-      title=" Server Information",
-      description=name,
-      color=discord.Color.blue()
-    )
-  embed.set_thumbnail(url=icon)
-  embed.add_field(name="Owner", value=owner, inline=True)
-  embed.add_field(name="Server ID", value=id, inline=True)
-  embed.add_field(name="Region", value=region, inline=True)
-  embed.add_field(name="Member Count", value=memberCount, inline=True)
-  embed.set_footer(text='Thanks for using Dark Muku')
-  embed.add_field(name='Server Description',value=f'{description}')
-
-
-  await ctx.send(embed=embed)
-
-  
-  
-@client.command()
-@commands.has_permissions(ban_members=True)
-async def unban(ctx,id:int):
-	user = await client.fetch_user(id)
-	await ctx.guild.unban(user)
-
-	embed=discord.Embed(title='',description=f'<:mukuyes:840609577308520519> **{user.name}#{user.discriminator}** was unbanned')
-
-	embed.set_footer(text='Thanks for using Dark Muku')
-
-	await ctx.send(embed=embed)
-
-
-
-
 @client.command()
 @commands.has_permissions(manage_nicknames=True)
 async def nick(ctx,member:discord.Member,*,nickname=''):
@@ -213,6 +170,40 @@ async def nick(ctx,member:discord.Member,*,nickname=''):
   embed.set_footer(text='Thanks for using Dark Muku')
 
   await ctx.send(embed=embed)
+
+def converts(time):
+  pos = ["s","m","h","d"]
+
+  time_dict = {"s" : 1, "m" : 60, "h" : 3600 , "d" : 3600*24}
+
+  unit = time[-1]
+
+  if unit not in pos:
+    return -1
+  try:
+    val = int(time[:-1])
+  except:
+    return -2
+        
+  return val * time_dict[unit]
+
+
+
+@client.command()
+async def reminder(ctx,time,*,message):
+  converted = converts(time)
+
+  member=ctx.message.author
+
+  await ctx.send(f'Sure! I will remind you after **{time}**')
+
+  await asyncio.sleep(converted)
+
+  try:
+    await member.send(f'`Hey {member.name}!` You told me to remind about: **{message}**')
+        
+  except:
+    await ctx.send(f'{member.mention} You told me to remind me about: **{message}**! but your dm was off')
 
 
 
@@ -246,9 +237,6 @@ async def removerole(ctx,member:discord.Member,role:discord.Role):
 
 
 
-
-
-
 @client.event
 async def on_message(msg):
     try:
@@ -268,6 +256,32 @@ async def on_message(msg):
     await client.process_commands(msg)
 
 
+@tasks.loop(seconds=60)
+async def info():
+  channel = client.get_channel(842585362270650378)
+  msg = await channel.fetch_message(842634008425005076)
+  delta_uptime = datetime.utcnow() - client.launch_time
+  hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
+  minutes, seconds = divmod(remainder, 60)
+  days, hours = divmod(hours, 24)
+
+  uptime = f'{days}d, {hours}h, {minutes}m, {seconds}s'
+  server_count = len(client.guilds)
+  member_count = len(client.users)
+				
+  ping = f'{round(client.latency*1000)}ms'
+
+  embed=discord.Embed(title='Bot Info',description='The bot\'s current status',color=0xae00ff)
+  embed.add_field(name='Ping',value=ping,inline=True)
+  embed.add_field(name='Uptime',value=uptime,inline=True)
+  embed.add_field(name='Server Count',value=f'{server_count}',inline=True)
+  embed.add_field(name='Member Count(overall)',value=f'{member_count}')
+  embed.set_image(url='https://media.discordapp.net/attachments/840423101284089896/842636092813082624/Bot_Status.jpg?width=734&height=367')
+  embed.set_thumbnail(url='https://media.discordapp.net/attachments/840423101284089896/840564997204738048/DARK_MUKU.png?width=457&height=457')
+
+  embed.set_footer(text='This info gets updated every minute')
+
+  await msg.edit(content=None,embed=embed)
 
 
 @tasks.loop(seconds=7)

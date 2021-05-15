@@ -1,4 +1,5 @@
 import discord,os,asyncio,datetime,psutil
+from discord.embeds import Embed
 from discord.ext import commands, tasks
 from datetime import datetime
 
@@ -53,7 +54,7 @@ class commands(commands.Cog):
 			embed.add_field(name='Memory Usage',value=f'{memory_percent}%',inline=True)
 
 			embed.add_field(name='Discord Version',value=f'{discord_version}',inline=True)
-			embed.add_field(name='*Python Version',value=f'3.9.0',inline=True)
+			embed.add_field(name='Python Version',value=f'3.9.0',inline=True)
 
 			embed.set_thumbnail(url=f'{avatar}')
 			embed.set_footer(text='This is an owner only cmd')
@@ -65,7 +66,7 @@ class commands(commands.Cog):
 			await ctx.send(embed=embed)
 		else:
 			await ctx.send('How can you think of owning this Bot?')
-
+		
 
 
 

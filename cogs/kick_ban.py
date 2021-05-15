@@ -30,6 +30,18 @@ class kick_ban(commands.Cog):
         embed.set_footer('Thanks for using Dark Muku')
 
         await ctx.send(embed=embed)
+    
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def unban(self,ctx,member:int):
+        user = await self.client.fetch_user(id)
+        await ctx.guild.unban(user)
+
+        embed=discord.Embed(title='',description=f'<:mukuyes:840609577308520519> **{user.name}#{user.discriminator}** was unbanned')
+
+        embed.set_footer(text='Thanks for using Dark Muku')
+
+        await ctx.send(embed=embed)
 
     
 
