@@ -23,13 +23,9 @@ client = commands.Bot(command_prefix = get_prefix,intents=intents)
 
 
 
-<<<<<<< HEAD
-cogs = ['cogs.owner','cogs.help','cogs.kick_ban','cogs.utility','cogs.music']
-client.launch_time = datetime.utcnow()
-=======
 cogs = ['cogs.owner','cogs.kick_ban','cogs.utility','cogs.music','cogs.mute']
+client.launch_time = datetime.utcnow()
 
->>>>>>> 9362d8eca1bd0c1180f8413a6f8b982cc4fad30a
 
 
 

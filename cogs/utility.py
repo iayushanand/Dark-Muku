@@ -108,7 +108,7 @@ class utility(commands.Cog):
         await msg.edit(content=f'{ctx.author.mention} Countdown Completed!')
     
     @commands.command(aliases=['info'])
-    async def serverinfo(ctx):
+    async def serverinfo(self,ctx):
         name = str(ctx.guild.name)
         description = str(ctx.guild.description)
 
@@ -137,9 +137,9 @@ class utility(commands.Cog):
     
     @commands.command(pass_context = True)
     @commands.has_permissions(administrator=True)
-    async def nuke(ctx,channel:discord.TextChannel=None):
+    async def nuke(self,ctx,channel:discord.TextChannel=None):
         if channel == None: 
-            await ctx.send("You did not mention a channel!")
+            await ctx.send(f"You did not mention a channel! Do {ctx.channel.mention} next time!")
             return
 
         nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
