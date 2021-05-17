@@ -147,6 +147,36 @@ class help_cmds(commands.Cog):
         await ctx.send(embed=embed)
 
     @help.command()
+    async def whois(self,ctx):
+        with open('prefixes.json','r') as f:
+            prefixes=json.load(f)
+        
+        pre=prefixes[str(ctx.guild.id)]
+        embed=discord.Embed(title='Who Is',description='Gives some basic info about a user',color=ctx.author.color)
+
+        embed.add_field(name='**Syntax**',value=f'{pre}whois `@user_mention`')
+        embed.add_field(name='**Perms**',value='No perms needed')
+
+        embed.set_footer(text='Thanks for using Dark Muku')
+
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def bug(self,ctx):
+        with open('prefixes.json','r') as f:
+            prefixes=json.load(f)
+        
+        pre=prefixes[str(ctx.guild.id)]
+        embed=discord.Embed(title='Bug',description='Reports bot bugs',color=ctx.author.color)
+
+        embed.add_field(name='**Syntax**',value=f'{pre}bug')
+        embed.add_field(name='**Perms**',value='No perms needed')
+
+        embed.set_footer(text='Thanks for using Dark Muku')
+
+        await ctx.send(embed=embed)
+
+    @help.command()
     async def nick(self,ctx):
         with open('prefixes.json','r') as f:
             prefixes=json.load(f)
@@ -156,6 +186,21 @@ class help_cmds(commands.Cog):
 
         embed.add_field(name='**Syntax**',value=f'{pre}nick `@user_mention` `<new nickname>`')
         embed.add_field(name='**Perms**',value='Manage nicknames')
+
+        embed.set_footer(text='Thanks for using Dark Muku')
+
+        await ctx.send(embed=embed)
+
+    @help.command()
+    async def serverinfo(self,ctx):
+        with open('prefixes.json','r') as f:
+            prefixes=json.load(f)
+        
+        pre=prefixes[str(ctx.guild.id)]
+        embed=discord.Embed(title='Server Info',description='Shows some basic info about the server',color=ctx.author.color)
+
+        embed.add_field(name='**Syntax**',value=f'{pre}serverinfo')
+        embed.add_field(name='**Perms**',value='No perms needed')
 
         embed.set_footer(text='Thanks for using Dark Muku')
 
