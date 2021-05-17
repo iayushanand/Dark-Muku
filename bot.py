@@ -21,9 +21,14 @@ client = commands.Bot(command_prefix = get_prefix,intents=intents)
 
  #removing help command
 
+client.remove_command('help')
 
+<<<<<<< HEAD:bot.py
 
 cogs = ['cogs.bug','cogs.help','cogs.kick_ban','cogs.mute','cogs.owner','cogs.utility']
+=======
+cogs = ['cogs.bug','cogs.help','cogs.kick_ban','cogs.mute','cogs.owner','cogs.utility','cogs.music']
+>>>>>>> 10306c58eeb2dae731e84b69dccce580b4b4fa77:main.py
 client.launch_time = datetime.utcnow()
 
 
