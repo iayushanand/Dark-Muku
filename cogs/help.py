@@ -422,5 +422,3 @@ class help_cmds(commands.Cog):
 
 def setup(bot):
     bot.add_cog(help_cmds(bot))
-
-    

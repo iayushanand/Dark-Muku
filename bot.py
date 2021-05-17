@@ -23,7 +23,7 @@ client = commands.Bot(command_prefix = get_prefix,intents=intents)
 
 
 
-cogs = ['cogs.owner','cogs.kick_ban','cogs.utility','cogs.music','cogs.mute']
+cogs = ['cogs.bug','cogs.help','cogs.kick_ban','cogs.mute','cogs.owner','cogs.utility']
 client.launch_time = datetime.utcnow()
 
 
