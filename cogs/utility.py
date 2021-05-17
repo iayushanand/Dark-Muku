@@ -12,6 +12,7 @@ class utility(commands.Cog):
     @commands.command()
     async def support(self,ctx):
         embed=discord.Embed(title="Support", description="Join **🔗[Dark Muku Support](https://discord.gg/VsPKw3qunU)**,\nA server where you can give feedback to the bot and ask for help or report an issue!", color=0x8000ff)
+        embed.add_field(name='Invite Link',value='🔗**[Link](https://bit.ly/33oC2Wm)** to invite this bot in your server.',inline=True)
         embed.set_author(name="Dark Muku Support", icon_url="https://media.discordapp.net/attachments/840423101284089896/840564997204738048/DARK_MUKU.png?width=457&height=457")
         embed.set_footer(text="Thanks for using Dark Muku")
         embed.set_image(url='https://media.discordapp.net/attachments/840423101284089896/840564768527613972/Support_Gif.gif?width=480&height=240')
@@ -38,7 +39,7 @@ class utility(commands.Cog):
 
         status=member.activities[0].name
 
-        roles = [role for role in member.roles]
+        roles = [role for role in member.roles[1:]]
         embed = discord.Embed(colour=discord.Colour.purple(), timestamp=ctx.message.created_at,
                           title=f"User Info - {member}")
         embed.set_thumbnail(url=member.avatar_url)
@@ -109,6 +110,7 @@ class utility(commands.Cog):
     
     @commands.command(aliases=['info'])
     async def serverinfo(self,ctx):
+        membersInServer = ctx.guild.members
         name = str(ctx.guild.name)
         description = str(ctx.guild.description)
 
@@ -117,7 +119,20 @@ class utility(commands.Cog):
         region = str(ctx.guild.region)
         memberCount = str(ctx.guild.member_count)
 
+        mc=int(ctx.guild.member_count)
+
         icon = str(ctx.guild.icon_url)
+
+        def filterOnlyOnlineMembers(member):
+            return member.status != 'offline'
+
+
+        onlineMembersInServer = list(filter(filterOnlyOnlineMembers,membersInServer))
+
+        omc = len(onlineMembersInServer)
+        nomc = int(len(onlineMembersInServer))
+        
+
         
         embed = discord.Embed(
             title=" Server Information",
@@ -131,6 +146,7 @@ class utility(commands.Cog):
         embed.add_field(name="Member Count", value=memberCount, inline=True)
         embed.set_footer(text='Thanks for using Dark Muku')
         embed.add_field(name='Server Description',value=f'{description}')
+        embed.add_field(name='Member Status',value=f'<:Online:841889925510070312> {omc}\n<:Invisible:843396279127506945> {mc-nomc}')
 
 
         await ctx.send(embed=embed)
