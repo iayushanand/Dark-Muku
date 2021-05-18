@@ -56,7 +56,6 @@ class giveaway(commands.Cog):
             return
 
         channel = self.client.get_channel(c_id)
-        give = discord.utils.get(ctx.guild.roles, id=827041561413287946)
 
         time = convert(answers[1])
         if time == -1:
@@ -79,9 +78,6 @@ class giveaway(commands.Cog):
         
         embed.set_footer(text = f"Ends {answers[1]} from now!")
 
-
-        await channel.send(f"{give.mention}")
-
         my_msg = await channel.send(embed = embed)
 
 
@@ -102,7 +98,7 @@ class giveaway(commands.Cog):
         await channel.send(f"Congratulations! {winner.mention} won {prize}! **Contact {ctx.author.mention} to claim {prize}**")
 
     @commands.command()
-    @commands.has_permissions(manage_mesages=True)
+    @commands.has_permissions(manage_messages=True)
     async def greroll(self,ctx, channel : discord.TextChannel, id_ : int):
         try:
             new_msg = await channel.fetch_message(id_)
