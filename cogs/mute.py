@@ -17,7 +17,7 @@ class mute(commands.Cog):
             await member.add_roles(mrole)
             embed=discord.Embed(title='',decription=f'<:mukuyes:840609577308520519> **{member.name}#{member.discriminator}** was muted')
 
-            embed.add_field('Thanks for using Dark Muku')
+            embed.set_footer(text='Thanks for using Dark Muku')
 
             await ctx.send(embed=embed)
         
