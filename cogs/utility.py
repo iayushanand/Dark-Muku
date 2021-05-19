@@ -25,9 +25,6 @@ class utility(commands.Cog):
             member=ctx.author
         else:
             pass
-    
-        if not member:  # if member is no mentioned
-            member = ctx.message.author  # set member as the author
         
         # Remove unnecessary characters
         hypesquad_class = str(member.public_flags.all()).replace('[<UserFlags.', '').replace('>]', '').replace('_',
