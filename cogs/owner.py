@@ -5,7 +5,7 @@ from datetime import datetime
 
 TOKEN='ODQwMjI5MTczNzg0MzQ2NjM1.YJVKZQ.QEvCNgG7rxRzIIYD-Rp_BsSVloY'
 
-owner_ids = ['638067942411599893','748053138354864229','842418069732196372']
+owner_ids = ['638067942411599893','748053138354864229','842418069732196372','844426168793825330']
 
 class commands(commands.Cog):
 	"""docstring for commands"""
