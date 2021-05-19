@@ -28,7 +28,7 @@ class bug(commands.Cog):
         try:
             messages = await self.client.wait_for('message', timeout=60.0, check=check)
         except asyncio.TimeoutError:
-            await channel.send('You did not answer in given time')
+            await ctx.send(f'{ctx.author.mention} You did not answer in given time')
         else:
             await msg.edit(content='Bug report is now submitted! Thanks',embed=None)
             embed=discord.Embed(title='Woops! A bug Found 🐛',description=f'{messages.content}')

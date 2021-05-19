@@ -124,7 +124,7 @@ class utility(commands.Cog):
         icon = str(ctx.guild.icon_url)
 
         def filterOnlyOnlineMembers(member):
-            return member.status != 'offline'
+            return member.status != discord.Status.offline
 
 
         onlineMembersInServer = list(filter(filterOnlyOnlineMembers,membersInServer))
