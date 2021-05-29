@@ -1,6 +1,7 @@
-import discord,asyncio
+import discord,asyncio,random
 from discord import message
 from discord.ext import commands
+from random import choice
 
 
 
@@ -19,7 +20,6 @@ class utility(commands.Cog):
         await ctx.send(embed=embed)
     
     @commands.command(aliases=["w"])
-    @commands.has_permissions(manage_messages = True)
     async def whois(self,ctx, member: discord.Member = ''):
         if member=='':
             member=ctx.author
@@ -34,8 +34,15 @@ class utility(commands.Cog):
         # Remove digits from string
         hypesquad_class = ''.join([i for i in hypesquad_class if not i.isdigit()])
 
-        status=member.activities[0].name
-
+        try:
+            status=member.activities[0].name
+        except IndexError:
+            status='None'
+        
+        if hypesquad_class == '[]':
+            hypesquad_class='None'
+        
+        
         roles = [role for role in member.roles[1:]]
         embed = discord.Embed(colour=discord.Colour.purple(), timestamp=ctx.message.created_at,
                           title=f"User Info - {member}")
@@ -169,6 +176,51 @@ class utility(commands.Cog):
         else:
             await ctx.send(f"No channel named {channel.name} was found!")
     
+
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def guildleave(self,ctx):
+        def check(msg):
+            return msg.channel==ctx.channel and msg.author==ctx.author
+        embed=discord.Embed(title='',description='',color=ctx.author.color)
+        embed.add_field(name='Confirmation',value='Write \'Y\' for Yes or \'N\' for No.')
+        await ctx.send(embed=embed)
+        
+        try:
+            ans = await self.client.wait_for('message',check=check,timeout=15.0)
+        except TimeoutError:
+            await ctx.send('You didn\'t answer in time :( Please try again')
+        
+        else:
+            if ans.content == 'Y' or ans.content == 'y':
+                embed=discord.Embed(title='Last Words!',description='It was a great here, I was so busy with the work that I forgot my retirment is on line ;-;\nIf you faced any problem please join **[Dark Muku Supprt Server](https://discord.gg/VsPKw3qunU)** ')
+                embed.set_footer(text='Bot will leave in 5 seconds, feel free to invite it again')
+                await ctx.send(embed=embed)
+                await asyncio.sleep(5)
+                await ctx.guild.leave()
+            else:
+                await ctx.send(f'Process Cancelled!')
+    
+    @commands.command()
+    async def toss(self,ctx):
+        prob = ['Heads','Tails']
+        out=f'{random.choice(prob)}'
+        dis='None'
+
+        if out == 'Heads':
+            dis='<:mukuheads:848067142209634304>'
+        elif out == 'Tails':
+            dis='<:mukutails:848067144683618344>'
+        else:
+            pass
+
+        embed=discord.Embed(title='',description='',color=0xffdd00)
+        embed.add_field(name=f'{out}',value=f'{dis}',inline=True)
+        embed.set_footer(text='Thanks for using Dark Muku')
+
+        await ctx.send(embed=embed)
+        
 
           
 
