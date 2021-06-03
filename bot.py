@@ -1,4 +1,4 @@
-import discord,json,random,datetime,asyncio
+import discord,json,random,datetime,asyncio,aiohttp
 from discord.client import Client
 from discord.ext import commands,tasks
 from random import choice
@@ -24,8 +24,12 @@ client = commands.Bot(command_prefix = get_prefix,intents=intents)
 client.remove_command('help')
 
 
-cogs = ['cogs.tictactoe','cogs.bug','cogs.giveaway','cogs.help','cogs.kick_ban','cogs.mute','cogs.owner','cogs.utility','cogs.music']
+cogs = ['cogs.bug','cogs.giveaway','cogs.help','cogs.kick_ban','cogs.mute','cogs.owner','cogs.utility','cogs.music']
+lcogs=[]
+
+
 client.launch_time = datetime.utcnow()
+
 
 
 
@@ -72,9 +76,6 @@ async def on_command_error(ctx,error):
 @client.event
 async def on_ready():
   print(f'Logged in as {client.user.name} in {len(client.guilds)} Servers')
-  for cog in cogs:
-    client.load_extension(cog)
-  
   changestatus.start()
   info.start()
 
@@ -139,6 +140,27 @@ async def purge(ctx,limit=1):
   await ctx.send(F'**<:mukuyes:840609577308520519> Deleted {limit} message(s)**',delete_after=1.5)
 
 
+comunitties=['AdviceAnimals','MemeEconomy','ComedyCemetery','memes','dankmemes','PrequelMemes','terriblefacebookmemes']
+
+
+
+
+
+@client.command(pass_context=True)
+@commands.cooldown(1, 15, commands.BucketType.guild)
+async def meme(ctx):
+    chose=f'{random.choice(comunitties)}'
+
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(f'https://www.reddit.com/r/{chose}/new.json?sort=hot%27') as r:
+            res = await r.json()
+            url=res['data']['children'] [random.randint(0, 15)]['data']['url']
+            embed = discord.Embed(title='Muku Memes', description=f'**[Meme link]({url})**')
+            embed.set_image(url=url)
+            embed.set_footer(text=f'Bot did\'t own any memes, This meme is from r/{chose}')
+            msg=await ctx.send(embed=embed)
+            await msg.add_reaction('<:upvote:810082923381784577>')
+            await msg.add_reaction('<:downvote:810083750453051392>')
 
 
 
@@ -206,6 +228,71 @@ async def reminder(ctx,time,*,message):
         
   except:
     await ctx.send(f'{member.mention} You told me to remind me about: **{message}**! but your dm was off')
+
+owner_ids = ['638067942411599893','748053138354864229','844426168793825330']
+
+@client.command()
+async def lext(ctx,ext=None):
+  if str(ctx.author.id) in owner_ids:
+    if not ext:
+      for cog in cogs:
+        client.load_extension(cog)
+        lcogs.append(f'{cog}')
+        await ctx.send(f'Loaded {cog} cogs')
+    
+    else:
+        if f'cogs.{ext}' in cogs :
+          client.load_extension(f'cogs.{ext}')
+          lcogs.append(f'cogs.{ext}')
+          await ctx.send(f'Loaded {ext}')
+        else:
+          await ctx.send(f'{ext} is alreay loaded')
+  else:
+    await ctx.send(f'You didn\'t own me!')
+
+@client.command()
+async def rext(ctx,ext=None):
+  if str(ctx.author.id) in owner_ids:
+    if not ext:
+      for cog in cogs:
+        client.reload_extension(cog)
+        await ctx.send(f'Reloaded {cog} cogs')
+    
+    else:
+        if f'cogs.{ext}' in cogs :
+          client.reload_extension(f'cogs.{ext}')
+          await ctx.send(f'Reloaded {ext}')
+        else:
+          await ctx.send(f'{ext} is alreay loaded')
+  else:
+    await ctx.send(f'You didn\'t own me!')
+
+
+@client.command()
+async def uext(ctx,ext=None):
+  if str(ctx.author.id) in owner_ids:
+    if not ext:
+      for cog in cogs:
+        client.unload_extension(cog)
+        lcogs.remove(f'{cog}')
+        await ctx.send(f'Unloaded {cog} cogs')
+    
+    else:
+        if f'cogs.{ext}' in cogs :
+          client.unload_extension(f'cogs.{ext}')
+          lcogs.remove(f'cogs.{ext}')
+          await ctx.send(f'Unloaded {ext}')
+        else:
+          await ctx.send(f'{ext} is alreay unloaded')
+  else:
+    await ctx.send(f'You didn\'t own me!')
+
+
+
+@client.command()
+async def pext(ctx):
+  await ctx.send(f'{lcogs} are Loaded Cogs')
+
 
 
 

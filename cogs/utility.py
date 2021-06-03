@@ -1,7 +1,7 @@
 import discord,asyncio,random
 from discord import message
 from discord.ext import commands
-from random import choice
+from random import choice, randint
 
 
 
@@ -159,19 +159,16 @@ class utility(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def nuke(self,ctx,channel:discord.TextChannel=None):
         if channel == None: 
-            await ctx.send(f"You did not mention a channel! Do {ctx.channel.mention} next time!")
-            return
+            channel=ctx.channel
 
         nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
 
         if nuke_channel is not None:
-            new_channel = await nuke_channel.clone(reason="Has been Nuked!")
+            new_channel = await nuke_channel.clone(reason=f"Has been Nuked! by {ctx.author.name}#{ctx.author.discriminator}")
             await nuke_channel.delete()
             await new_channel.send("THIS CHANNEL HAS BEEN NUKED!")
-            await ctx.send("Nuked the Channel sucessfully!")
-
-            asyncio.sleep(0.4)
             await new_channel.send("https://tenor.com/view/explosion-mushroom-cloud-atomic-bomb-bomb-boom-gif-4464831")
+            await ctx.send("Nuked the Channel sucessfully!")
 
         else:
             await ctx.send(f"No channel named {channel.name} was found!")
@@ -220,6 +217,14 @@ class utility(commands.Cog):
         embed.set_footer(text='Thanks for using Dark Muku')
 
         await ctx.send(embed=embed)
+    
+
+    @commands.command()
+    async def rand(self,ctx,num1:int,num2:int):
+        guess=f'{randint(num1 , num2)}'
+
+        await ctx.send(f'Random Number between **{num1}** and **{num2}**: **{guess}**')
+        
         
 
           

@@ -39,7 +39,7 @@ class help_cmds(commands.Cog):
 
         embed=discord.Embed(title='Moderation Commands',description=f'Use `{pre}help <command>` for more info on that command',color=ctx.author.color)
 
-        embed.add_field(name='Commands',value='`kick`  `ban`  `giverole`  `purge`  `removerole`  `nick`  `setprefix`  `slowmode`   `nuke`')
+        embed.add_field(name='Commands',value='`kick` `guildleave` `ban`  `giverole`  `purge`  `removerole`  `nick`  `setprefix`  `slowmode`   `nuke`')
 
         await ctx.send(embed=embed)
 
@@ -65,7 +65,7 @@ class help_cmds(commands.Cog):
 
         embed=discord.Embed(title='Normal Commands',description=f'Use `{pre}help <command>` for more info on that command',color=ctx.author.color)
 
-        embed.add_field(name='Commands',value='`avatar`  `countdown`  `servericon`  `serverinfo`  `whois`  `support`  `ping`  `reminder`')
+        embed.add_field(name='Commands',value='`avatar`  `countdown`  `servericon`  `serverinfo`  `whois`  `support`  `ping`  `reminder` `toss` `meme`')
 
         await ctx.send(embed=embed)
 
@@ -462,8 +462,50 @@ class help_cmds(commands.Cog):
         await ctx.send(embed=embed)
     
 
+    @help.command()
+    async def meme(self,ctx):
+        with open('prefixes.json','r') as f:
+            prefix=json.load(f)
+        
+        pre=prefix[str(ctx.guild.id)]
+        embed=discord.Embed(title='Meme',description='Shows funny meme from Reddit',color=ctx.author.color)
+        embed.add_field(name='Syntax',value=f'{pre}meme')
+        embed.add_field(name='Perms',value='No perms required')
+
+        embed.set_footer(text='Thanks for using Dark Muku')
+
+        await ctx.send(embed=embed)
+    
+    @help.command()
+    async def guildleave(self,ctx):
+        with open('prefixes.json','r') as f:
+            prefix=json.load(f)
+        
+        pre=prefix[str(ctx.guild.id)]
+        embed=discordembed=discord.Embed(title="Guild Leave", description="Leaves the Server", color=ctx.author.color)
+        embed.add_field(name="Syntax", value=f"{pre}guildleave")
+        embed.add_field(name='Perms',value='Administrator')
+        embed.set_footer(text='Thanks for using Dark Muku')
+        await ctx.send(embed=embed)
+    
+    @help.command()
+    async def toss(self,ctx):
+        with open('prefixes.json','r') as f:
+            prefix=json.load(f)
+        
+        pre=prefix[str(ctx.guild.id)]
+        embed=discordembed=discord.Embed(title="Toss", description="Toss a coin", color=ctx.author.color)
+        embed.add_field(name="Syntax", value=f"{pre}toss")
+        embed.add_field(name='Perms',value='No perms required')
+        embed.set_footer(text='Thanks for using Dark Muku')
+        await ctx.send(embed=embed)
+
+    
+
     
 
 
 def setup(bot):
     bot.add_cog(help_cmds(bot))
+
+    
