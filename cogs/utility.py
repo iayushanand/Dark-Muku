@@ -224,11 +224,6 @@ class utility(commands.Cog):
         guess=f'{randint(num1 , num2)}'
 
         await ctx.send(f'Random Number between **{num1}** and **{num2}**: **{guess}**')
-        
-        
-
-          
-
 
 
 def setup(client):
