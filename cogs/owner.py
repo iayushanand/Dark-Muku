@@ -66,7 +66,42 @@ class commands(commands.Cog):
 			await ctx.send(embed=embed)
 		else:
 			await ctx.send('How can you think of owning this Bot?')
+	
+	@commands.command()
+	async def forceleave(self,ctx,id:int):
+		if str(ctx.author.id) in owner_ids:
+			guild = self.client.get_guild(id)
+			name = guild.name
+			icon = str(guild.icon_url)
+
+			def check(message):
+				return message.channel == ctx.channel and message.author == ctx.author
+			
+			embed=discord.Embed(title='Are You Sure?',description='Write Y for Yes and N for No!',color=0xff0000)
+			embed.set_author(name=f'{name}',icon_url=f'{icon}')
+			embed.set_footer(text='Please verify Server Name and Icon')
+
+			await ctx.send(embed=embed)
+			try:
+				msg = await self.client.wait_for('message',check=check,timeout=15.0)
+			except TimeoutError:
+				em=discord.Embed(title='',description='',color=0xff0000)
+				em.add_field(name='🕐 Timeout!',value='Time limit of 15 seconds exceeded!')
+				await ctx.send(embed=em)
+			
+			if msg.content == 'Y' or msg.content == 'y':
+				await guild.leave()
+				embed=discord.Embed(title='',description=f'Left {guild.name}',color=0xff0000)
+				embed.set_author(name=f'{name}',icon_url=f'{icon}')
+				embed.set_footer(text=f'Requested by {ctx.author.name}')
+				await ctx.send(embed=embed)
+			
+			else:
+				embed=discord.Embed(title='Process Cancelled!',description='',color=0x123456)
+				await ctx.send(embed=embed)
 		
+		else:
+			await ctx.send('How can you think of Owning this bot?')
 
 
 

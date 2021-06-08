@@ -94,8 +94,8 @@ class utility(commands.Cog):
         await ctx.send(embed=embed)
     
     @commands.command(aliases=['cd'])
-    async def countdown(self,ctx,seconds:int):
-        if seconds == None:
+    async def countdown(self,ctx,seconds:int=None):
+        if not seconds:
             await ctx.send('<:mukuno:840609577053454366> Please provide seconds')
 
         elif seconds>60:

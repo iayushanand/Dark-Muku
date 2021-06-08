@@ -224,10 +224,12 @@ async def reminder(ctx,time,*,message):
   await asyncio.sleep(converted)
 
   try:
-    await member.send(f'`Hey {member.name}!` You told me to remind about: **{message}**')
-        
+    await member.send(f'`Hey {member.name}!` You told me to remind about:')
+    await member.send(f'{message}')
+
   except:
     await ctx.send(f'{member.mention} You told me to remind me about: **{message}**! but your dm was off')
+
 
 owner_ids = ['638067942411599893','748053138354864229','844426168793825330']
 
@@ -283,7 +285,7 @@ async def uext(ctx,ext=None):
           lcogs.remove(f'cogs.{ext}')
           await ctx.send(f'Unloaded {ext}')
         else:
-          await ctx.send(f'{ext} is alreay unloaded')
+          await ctx.send(f'{ext} is already unloaded')
   else:
     await ctx.send(f'You didn\'t own me!')
 
@@ -382,7 +384,9 @@ async def changestatus():
   await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,name=(random.choice(status))))
 
 
-
+for cog in cogs:
+  client.load_extension(cog)
+  lcogs.append(cog)
 
 
 client.run('ODQwMjI5MTczNzg0MzQ2NjM1.YJVKZQ.QEvCNgG7rxRzIIYD-Rp_BsSVloY')
